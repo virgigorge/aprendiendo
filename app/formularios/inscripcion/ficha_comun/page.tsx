@@ -7,16 +7,18 @@ import { validationSchema } from "@/app/validations/validationSchema";
 interface FormData {
   player_name: string;
   date: string;
-  dni: number;
+  dni: string;
   birth_city: string;
   address: string;
-  tutor_name?: string;
-  tutor_dni?: string;
+  tutor_name: string;
+  tutor_dni: string;
   club: string;
   division?: string;
 }
 
 const inputClass = `uppercase placeholder:normal-case mt-1 block w-full rounded-md border px-3 py-2 text-sm placeholder-gray-400 focus:ring-cyan-950 focus:border-cyan-950`;
+const sectionClass = `mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950`
+
 
 export default function Ficha_Comun() {
   const [selectedCheckbox, setSelectedCheckbox] = useState<string | null>(null);
@@ -98,7 +100,7 @@ export default function Ficha_Comun() {
                   id="date"
                   type="date"
                   placeholder="Fecha de nacimiento del Jugador"
-                  className={`${inputClass}}
+                  className={`${sectionClass}}
                     ${errors.date ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                   {...register("date")}
                 />
@@ -138,7 +140,7 @@ export default function Ficha_Comun() {
                     ${errors.birth_city ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                   {...register("birth_city")}
                 />
-                {errors.birth_city && <p className="text-red-500 py-2 text-xs">{errors.birth_city.message}</p>}
+                {errors.birth_city && <p className="text-red-500 py-1 text-xs">{errors.birth_city.message}</p>}
               </div>
 
               <div>
@@ -151,7 +153,7 @@ export default function Ficha_Comun() {
                   type="text"
                   placeholder="Domicilio"
                   className={`${inputClass}}
-                  ${errors.address ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
+                    ${errors.address ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                   {...register("address")}
                 />
                 {errors.address && <p className="text-red-500 py-1 text-xs">{errors.address.message}</p>}
@@ -170,7 +172,7 @@ export default function Ficha_Comun() {
                 </label>
                 <select
                   id="club"
-                  className={`${inputClass}}
+                  className={`${sectionClass}}
                     ${errors.club ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                   {...register("club")}
                 >
@@ -187,7 +189,7 @@ export default function Ficha_Comun() {
                 </label>
                 <select
                   id="division"
-                  className={`${inputClass}}
+                  className={`${sectionClass}}
                     ${errors.division ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                   {...register("division")}
                 >
@@ -224,7 +226,7 @@ export default function Ficha_Comun() {
 
           {selectedCheckbox && (
             <div className="space-y-4">
-              {["tutor_name", "tutor_dni"].map((id, index) => (
+              {["tutor_name", "tutor_dni"].map((id) => (
                 <div key={id}>
                   <input
                     id={id}

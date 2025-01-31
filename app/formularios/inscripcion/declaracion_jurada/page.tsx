@@ -17,6 +17,9 @@ interface FormData {
     date_inscripcion: string;
 }
 
+const inputClass = `uppercase placeholder:normal-case mt-1 block w-full rounded-md border px-3 py-2 text-sm placeholder-gray-400 focus:ring-cyan-950 focus:border-cyan-950`;
+const sectionClass = `mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950`
+
 export default function Declaracion_Jurada() {
     const [selectedCheckbox, setSelectedCheckbox] = useState<string | null>(null);
     const [isMinor, setIsMinor] = useState(false);
@@ -76,7 +79,7 @@ export default function Declaracion_Jurada() {
                             id="player_name"
                             type="text"
                             placeholder="Nombre completo del Jugador"
-                            className={`uppercase placeholder:normal-case mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-cyan-950 placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950
+                            className={`${inputClass}}
                                 ${errors.player_name ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""}`}
                             {...register("player_name")}
                         />
@@ -90,7 +93,7 @@ export default function Declaracion_Jurada() {
                         <input
                             id="date"
                             type="date"
-                            className={`mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-cyan-950 focus:ring-cyan-950
+                            className={`${sectionClass}}
                                 ${errors.date ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""}`}
                             {...register("date_inscripcion")}
                         />
@@ -103,7 +106,7 @@ export default function Declaracion_Jurada() {
                         </label>
                         <select
                             id="club"
-                            className={`mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-cyan-950 focus:ring-cyan-950
+                            className={`${sectionClass}}
                                 ${errors.club ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""}`}
                             {...register("club")}
                         >
@@ -125,7 +128,7 @@ export default function Declaracion_Jurada() {
                             id="dni"
                             type="text"
                             placeholder="DNI / C.I."
-                            className={`uppercase placeholder:normal-case mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-cyan-950 placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950
+                            className={`${inputClass}}
                                 ${errors.dni ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""}`}
                             {...register("dni")}
                             onInput={(e) => {
@@ -145,7 +148,7 @@ export default function Declaracion_Jurada() {
                         id="date"
                         type="date"
                         placeholder="Fecha de nacimiento del Jugador"
-                        className={`mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950
+                        className={`${sectionClass}}
                             ${errors.date ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                         {...register("date")}
                         />
@@ -178,7 +181,7 @@ export default function Declaracion_Jurada() {
                       id="tutor_name"
                       type="text"
                       placeholder={`Nombre del ${selectedCheckbox}`}
-                      className={`uppercase placeholder:normal-case mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-cyan-950 placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950
+                      className={`${inputClass}}
                         ${errors.tutor_name ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                       {...register("tutor_name")}
                     />
@@ -191,7 +194,7 @@ export default function Declaracion_Jurada() {
                       id="tutor_dni"
                       type="text"
                       placeholder={`DNI/C.I. del ${selectedCheckbox}`}
-                      className={`uppercase placeholder:normal-case mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-cyan-950 placeholder-gray-400 focus:border-cyan-950 focus:ring-cyan-950
+                      className={`${inputClass}}
                         ${errors.tutor_dni ? "border-red-500 focus:border-red-500 focus:ring-red-500" : "border-gray-300 focus:border-red-500 focus:ring-red-500"}`}
                       {...register("tutor_dni")}
                       onInput={(e) => {
@@ -206,7 +209,7 @@ export default function Declaracion_Jurada() {
             </div>
             </div>
 
-                {/* Centered Button */}
+
                 <div className="col-span-1 md:col-span-2 text-center">
                     <button
                         type="submit"
