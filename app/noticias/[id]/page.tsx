@@ -1,9 +1,9 @@
-import PostContent from "@/components/PostContent";
+import PostContent from "../../../components/PostContent/PostContent";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
   const id = (await params).id;
 
