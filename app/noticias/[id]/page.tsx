@@ -1,15 +1,9 @@
 import PostContent from "../../../components/PostContent/PostContent";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const id = (await params).id;
-
+export default function NoticiaPage({ params }: { params: { id: string } }) {
   return (
     <div>
-      <PostContent id={id} />
+      <PostContent id={params.id} />
     </div>
   );
 }

@@ -1,10 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export default function Home() {
+export default async function Home() {
   interface Noticia {
     id: number;
     title: string;
@@ -12,32 +9,10 @@ export default function Home() {
     image_url?: string;
   }
 
-  const [noticias, setNoticias] = useState<Noticia[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/clubes/noticias?limit=10")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Datos recibidos:", data);
-        setNoticias(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching noticias:", error);
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <p>Cargando noticias...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const noticiasResponse = await fetch(
+    "http://localhost:3000/api/clubes/noticias?limit=10"
+  );
+  const noticias: Noticia[] = await noticiasResponse.json();
 
   return (
     <div>
@@ -90,7 +65,7 @@ export default function Home() {
               <Link key={noticia.id} href={`/noticias/${noticia.id}`} passHref>
                 <div className="cursor-pointer w-full bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                   <Image
-                    src="/gatitos-1.webp"
+                    src={`http://localhost:3000/${noticia.images}`}
                     alt={noticia.title}
                     width={1000}
                     height={760}

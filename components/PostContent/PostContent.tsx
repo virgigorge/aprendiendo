@@ -1,23 +1,64 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import SocialBar from "../../components/SocialBar/SocialBar";
 import Image from "next/image";
 
+interface Noticia {
+  id: number;
+  title: string;
+  body: string;
+  date: string;
+  image: string;
+}
+
 export default function PostContent({ id }: { id: string }) {
+  const [noticia, setNoticia] = useState<Noticia | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchNoticia = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/clubes/noticias/${id}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Noticia no encontrada");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          setNoticia(data[0]);
+        } else {
+          throw new Error("Noticia no encontrada");
+        }
+      } catch (err) {
+        setError("Error al cargar la noticia");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNoticia();
+  }, [id]);
+
+  if (!noticia) {
+    return <div>Noticia no encontrada</div>;
+  }
+
   return (
     <div className="">
       <header className="font-bold py-4 px-4">
-        <h1 className="text-4xl">ACA IRÍA EL TÍTULO: {id}</h1>
-        <b>21 DE ENERO DE 2025</b>
+        <h1 className="text-4xl">{noticia.title}</h1>
+        <b>
+          {new Date(noticia.date).toLocaleDateString() || "Fecha no disponible"}
+        </b>
       </header>
 
       <hr />
-
-      <p className="px-4 py-2">
-        <b>Aca iría aca iría | </b>
-        miau miau miau miau miau miau miau miau miau miau miau miau miau miau
-        miau miau miau miau miau miau miau miau miau miau miau miau miau miau
-      </p>
 
       <SocialBar />
 
@@ -25,8 +66,8 @@ export default function PostContent({ id }: { id: string }) {
 
       <div className="w-full flex justify-center py-4">
         <Image
-          src="/gatitos-2.webp"
-          alt=""
+          src={`http://localhost:3000/${noticia.image}`}
+          alt={noticia.title}
           width={1000}
           height={760}
           className="w-full object-cover"
@@ -34,26 +75,9 @@ export default function PostContent({ id }: { id: string }) {
       </div>
 
       <div className="w-full px-4 py-4">
-        <p>
-          Cultural Gilbert vs El Porvenir. División Reserva: 17:00hs.
-          <br />
-          Primera División: 19:00hs
-          <br />
-          Árbitro: Brian Izaguirre.
-          <br />
-          Asistentes: Juan Ramírez y Eduardo Troncoso.
-          <br />
-          San Martin vs Atlético Basavilbaso
-          <br />
-          División Reserva: 18:45hs.
-          <br />
-          Primera División: 20:45hs.
-          <br />
-          Árbitro: Sergio Hernández.
-          <br />
-          Asistentes: Damián Hurtado, Leandro Lescano Guzmán y Candela Mori.
-          <br />
-        </p>
+        {noticia.body.split("\n").map((line, index) => (
+          <p key={index}>{line}</p>
+        ))}
       </div>
     </div>
   );
