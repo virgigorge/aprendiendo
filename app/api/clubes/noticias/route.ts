@@ -1,5 +1,5 @@
+import pool from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import pool from "../../../../lib/db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,15 +10,17 @@ export async function GET(req: NextRequest) {
       searchParams.get("sort")?.toLowerCase() === "asc" ? "ASC" : "DESC";
 
     const [rows] = await pool.query(
-      "SELECT * FROM `ligaregional`.`posts` WHERE `section_id` = 1 ORDER BY id " +
+      "SELECT * FROM ligaregional.posts WHERE section_id = 1 ORDER BY id " +
         sort +
         " LIMIT ?;",
       [limit]
     );
 
+    console.log("Noticias devueltas por la API:", rows);
+
     return NextResponse.json(rows);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching noticias:", error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

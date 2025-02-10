@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import HomeBar from "@/components/HomeBar/HomeBar";
 
 export default async function Home() {
   interface Noticia {
@@ -7,6 +8,7 @@ export default async function Home() {
     title: string;
     content: string;
     image_url?: string;
+    image?: string;
   }
 
   const noticiasResponse = await fetch(
@@ -16,32 +18,7 @@ export default async function Home() {
 
   return (
     <div>
-      <nav className="flex items-center justify-center text-white space-x-1 py-8">
-        <Link href="/clubes" passHref>
-          <div className="bg-cyan-900 hover:bg-cyan-950 font-bold flex items-center justify-center w-72 h-12">
-            CLUBES
-          </div>
-        </Link>
-
-        <Link href="/campeones" passHref>
-          <div className="bg-teal-500 hover:bg-teal-600 font-bold flex items-center justify-center w-72 h-12">
-            CAMPEONES
-          </div>
-        </Link>
-
-        <Link href="/estadisticas" passHref>
-          <div className=" bg-yellow-500  hover:bg-yellow-600 font-bold flex items-center justify-center w-72 h-12">
-            ESTADÍSTICAS
-          </div>
-        </Link>
-
-        <Link href="/colegio" passHref>
-          <div className=" bg-red-500 hover:bg-red-600 font-bold flex items-center justify-center w-72 h-12">
-            COLEGIO
-          </div>
-        </Link>
-      </nav>
-
+      <HomeBar />
       <div className="flex flex-wrap justify-between p-4">
         <div className="w-full lg:w-1/2 p-2">
           <div className="h-[600px] bg-blue-500 text-white text-center p-6">
@@ -61,25 +38,32 @@ export default async function Home() {
           <br />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {noticias.map((noticia) => (
-              <Link key={noticia.id} href={`/noticias/${noticia.id}`} passHref>
-                <div className="cursor-pointer w-full bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <Image
-                    src={`http://localhost:3000/${noticia.images}`}
-                    alt={noticia.title}
-                    width={1000}
-                    height={760}
-                    className="w-full object-cover"
-                  />
-                  <div className="p-4">
-                    <h2 className="text-lg font-bold text-gray-800">
-                      {noticia.title}
-                    </h2>
-                    <p className="text-sm text-gray-600"></p>
+            {noticias.map((noticia) => {
+              console.log(noticia.image);
+              return (
+                <Link
+                  key={noticia.id}
+                  href={`/noticias/${noticia.id}`}
+                  passHref
+                >
+                  <div className="cursor-pointer w-full bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <Image
+                      src={`https://ligaregional.com.ar/files/images/${noticia.image}`}
+                      alt={noticia.title}
+                      width={1000}
+                      height={760}
+                      className="w-full object-cover"
+                    />
+                    <div className="p-4">
+                      <h2 className="text-lg font-bold text-gray-800">
+                        {noticia.title}
+                      </h2>
+                      <p className="text-sm text-gray-600"></p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

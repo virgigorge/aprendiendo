@@ -1,53 +1,21 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import SocialBar from "../../components/SocialBar/SocialBar";
 import Image from "next/image";
 
-interface Noticia {
-  id: number;
-  title: string;
-  body: string;
-  date: string;
-  image: string;
-}
-
-export default function PostContent({ id }: { id: string }) {
-  const [noticia, setNoticia] = useState<Noticia | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchNoticia = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/clubes/noticias/${id}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Noticia no encontrada");
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-          setNoticia(data[0]);
-        } else {
-          throw new Error("Noticia no encontrada");
-        }
-      } catch (err) {
-        setError("Error al cargar la noticia");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNoticia();
-  }, [id]);
-
-  if (!noticia) {
-    return <div>Noticia no encontrada</div>;
+export default async function PostContent({ id }: { id: string }) {
+  interface Contenido {
+    id: number;
+    title: string;
+    body: string;
+    date: string;
+    image_url?: string;
+    image?: string;
   }
+
+  const contenidosResponse = await fetch(
+    `http://localhost:3000/api/clubes/noticias/${id}`
+  );
+  const contenidos: Contenido[] = await contenidosResponse.json();
+  const noticia = contenidos[0];
 
   return (
     <div className="">
@@ -66,7 +34,7 @@ export default function PostContent({ id }: { id: string }) {
 
       <div className="w-full flex justify-center py-4">
         <Image
-          src={`http://localhost:3000/${noticia.image}`}
+          src={`https://ligaregional.com.ar/files/images/${noticia.image}`}
           alt={noticia.title}
           width={1000}
           height={760}
